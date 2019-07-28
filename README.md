@@ -87,6 +87,7 @@ const screenWidth = Dimensions.get('window').width
 
 ## Bar chart
 
+![Bar_Chart_Scrollable](/src/screenshot.png)
 
 ```js
 const data = {
