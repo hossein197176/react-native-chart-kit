@@ -50,7 +50,7 @@ class AbstractChart extends Component {
           x2={width}
           y2={(height / 4) * i + paddingTop}
           stroke={this.props.chartConfig.color(0.2)}
-          strokeDasharray="5, 10"
+          // strokeDasharray="5, 10"
           strokeWidth={1}
         />
       )
@@ -119,6 +119,7 @@ class AbstractChart extends Component {
       height,
       paddingRight,
       paddingTop,
+      lengthToShow,
       horizontalOffset = 0,
       stackedBar = false
     } = config
@@ -133,7 +134,7 @@ class AbstractChart extends Component {
         <Text
           key={Math.random()}
           x={
-            (((width - paddingRight) / labels.length) * i +
+            (((width - paddingRight) / lengthToShow/*labels.length*/) * i +
               paddingRight +
               horizontalOffset) *
             fac

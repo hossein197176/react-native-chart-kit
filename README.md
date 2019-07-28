@@ -1,10 +1,6 @@
-If you're looking to **build a website or a cross-platform mobile app** – we will be happy to help you! Send a note to clients@ui1.io and we will be in touch with you shortly.
+Fork Of [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit) 
 
-![Chart Kit](https://i.imgur.com/Idp4WIX.jpg)
-
-[📲See example app](https://github.com/indiespirit/react-native-chart-kit-example)
-
-# React Native Chart Kit Documentation
+Added Colors for Bar Chart and made it scrollable for more data.
 
 ## Import components
 1. `yarn add react-native-chart-kit`
@@ -89,92 +85,8 @@ import { Dimensions } from 'react-native'
 const screenWidth = Dimensions.get('window').width
 ```
 
-## Line Chart
-
-![Line Chart](https://i.imgur.com/Wt26snd.jpg)
-
-```js
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-  datasets: [{
-    data: [ 20, 45, 28, 80, 99, 43 ],
-    color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-    strokeWidth: 2 // optional
-  }]
-}
-```
-
-```html
-<LineChart
-  data={data}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-/>
-```
-
-| Property        | Type           | Description  |
-| ------------- |-------------| -----|
-| data | Object | Data for the chart - see example above |
-| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height | Number | Height of the chart |
-| withDots | boolean | Show dots on the line - default: True |
-| withShadow | boolean | Show shadow for line - default: True |
-| withInnerLines | boolean | Show inner dashed lines - default: True |
-| withOuterLines | boolean | Show outer dashed lines - default: True |
-| withVerticalLabels | boolean | Show vertical labels - default: True |
-| withHorizontalLabels | boolean | Show horizontal labels - default: True |
-| fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
-| yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
-| chartConfig | Object | Configuration object for the chart, see example config object above |
-|decorator | Function | This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266) of stuff and can render extra elements, such as data point info or additional markup. |
-|onDataPointClick| Function| Callback that takes `{value, dataset, getColor}`|
-
-## Bezier Line Chart
-
-![Line Chart](https://i.imgur.com/EnUiZZU.jpg)
-
-```html
-<LineChart
-  data={data}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-  bezier
-/>
-```
-
-| Property        | Type           | Description  |
-| ------------- |-------------| -----|
-| bezier | boolean | Add this prop to make the line chart smooth and curvy |
-
-## Progress Ring
-
-![Progress Chart](https://i.imgur.com/U4lkW0K.jpg)
-
-```js
-// each value represents a goal ring in Progress chart
-const data = [0.4, 0.6, 0.8]
-```
-
-```html
-<ProgressChart
-  data={data}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-/>
-```
-| Property        | Type           | Description  |
-| ------------- |-------------| -----|
-| data | Object | Data for the chart - see example above |
-| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height | Number | Height of the chart |
-| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
-
 ## Bar chart
 
-![Bat Chart](https://i.imgur.com/jVHEWiI.jpg)
 
 ```js
 const data = {
@@ -187,6 +99,7 @@ const data = {
 ```html
 <BarChart
   style={graphStyle}
+  colors={['yellow', 'red', 'orange', 'blue', 'purple', 'black']}
   data={data}
   width={screenWidth}
   height={220}
@@ -198,6 +111,7 @@ const data = {
 | Property        | Type           | Description  |
 | ------------- |-------------| -----|
 | data | Object | Data for the chart - see example above |
+| colors | Array | Color of each column of chart - see example above |
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
 | withVerticalLabels | boolean | Show vertical labels - default: True |
@@ -205,175 +119,6 @@ const data = {
 | fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
-
-## StackedBar chart
-
-![StackedBar_Chart](https://imgur.com/JkBtxt8.jpg)
-
-```js
-const data ={
-  labels: ['Test1', 'Test2'],
-  legend: ['L1', 'L2', 'L3'],
-  data: [
-    [60, 60, 60],
-    [30,30,60],
-  ],
-  barColors: ['#dfe4ea', '#ced6e0', '#a4b0be'],
- }
-```
-```html
-<StackedBarChart
-  style={graphStyle}
-  data={data}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-/>
-```
-
-| Property        | Type           | Description  |
-| ------------- |-------------| -----|
-| data | Object | Data for the chart - see example above |
-| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height | Number | Height of the chart |
-| withVerticalLabels | boolean | Show vertical labels - default: True |
-| withHorizontalLabels | boolean | Show horizontal labels - default: True |
-| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
-
-## Pie chart
-
-![Pie Chart](https://i.imgur.com/JMz3obk.jpg)
-
-### Modified Pie Chart Screenshot
-![Pie Chart_modified](/src/piechart_modified.png)
-
-```js
-const data = [
-  { name: 'Seoul', population: 21500000, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'Toronto', population: 2800000, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'Beijing', population: 527612, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'New York', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'Moscow', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
-]
-```
-```html
-<PieChart
-  data={data}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-  accessor="population"
-  backgroundColor="transparent"
-  paddingLeft="15"
-  absolute
-/>
-```
-
-| Property        | Type           | Description  |
-| ------------- |-------------| -----|
-| data | Object | Data for the chart - see example above |
-| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height | Number | Height of the chart |
-| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
-| accessor | string | Property in the `data` object from which the number values are taken |
-| bgColor | string | background color - if you want to set transparent, input `transparent` or `none`. |
-| paddingLeft | string | left padding of the pie chart |
-| absolute | boolean | shows the values as absolute numbers |
-
-## Contribution graph (heatmap)
-
-![Contribution Graph](https://i.imgur.com/NKURRt6.jpg)
-
-This type of graph is often use to display a developer contribution activity. However, there many other use cases this graph is used when you need to visualize a frequency of a certain event over time.
-
-```js
-const commitsData = [
-  { date: '2017-01-02', count: 1 },
-  { date: '2017-01-03', count: 2 },
-  { date: '2017-01-04', count: 3 },
-  { date: '2017-01-05', count: 4 },
-  { date: '2017-01-06', count: 5 },
-  { date: '2017-01-30', count: 2 },
-  { date: '2017-01-31', count: 3 },
-  { date: '2017-03-01', count: 2 },
-  { date: '2017-04-02', count: 4 },
-  { date: '2017-03-05', count: 2 },
-  { date: '2017-02-30', count: 4 }
-]
-```
-
-```html
-<ContributionGraph
-  values={commitsData}
-  endDate={new Date('2017-04-01')}
-  numDays={105}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-/>
-```
-
-| Property        | Type           | Description  |
-| ------------- |-------------| -----|
-| data | Object | Data for the chart - see example above |
-| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height | Number | Height of the chart |
-| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
-| accessor | string | Property in the `data` object from which the number values are taken |
-
-## More styling
-Every charts also accepts `style` props, which will be applied to parent `svg` or `View` component of each chart.
-
-## Abstract Chart
-
-`src/abstract-chart.js` is an extendable class which can be used to create your own charts!
-
-The following methods are available:
-
-### renderHorizontalLines(config)
-Renders background horizontal lines like in the Line Chart and Bar Chart. Takes a config object with following properties:
-```js
-{
-  // width of your chart
-  width: Number,
-  // height of your chart
-  height: Number,
-  // how many lines to render
-  count: Number,
-  // top padding from the chart top edge
-  paddingTop: Number
-}
-```
-
-### renderVerticalLabels(config)
-Render background vertical lines. Takes a config object with following properties:
-```js
-{
-  // data needed to calculate the number of lines to render
-  data: Array,
-  // width of your chart
-  width: Number,
-  // height of your chart
-  height: Number,
-  paddingTop: Number,
-  paddingRight: Number
-}
-```
-
-### renderDefs(config)
-Render definitions of background and shadow gradients
-```js
-{
-  // width of your chart
-  width: Number,
-  // height of your chart
-  height: Number,
-  // first color of background gradient
-  backgroundGradientFrom: String,
-  // second color of background gradient
-  backgroundGradientTo: String
-}
-```
 
 ## More information
 This library is built on top of the following open-source projects:
