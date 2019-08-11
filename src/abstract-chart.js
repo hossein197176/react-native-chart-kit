@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-
 import {LinearGradient, Line, Text, Defs, Stop} from 'react-native-svg'
+import { moderateScale } from 'react-native-size-matters';
 
 class AbstractChart extends Component {
   calcScaler = data => {
@@ -123,31 +123,51 @@ class AbstractChart extends Component {
       horizontalOffset = 0,
       stackedBar = false
     } = config
-    const fontSize = 12
+    const fontSize = moderateScale(12)
     let fac = 1
     if (stackedBar) {
       fac = 0.71
     }
-
-    return labels.map((label, i) => {
-      return (
-        <Text
-          key={Math.random()}
-          x={
-            (((width - paddingRight) / lengthToShow/*labels.length*/) * i +
-              paddingRight +
-              horizontalOffset) *
-            fac
-          }
-          y={(height * 3) / 4 + paddingTop + fontSize * 2}
-          fontSize={fontSize}
-          fill={this.props.chartConfig.color(0.5)}
-          textAnchor="middle"
-        >
-          {label}
-        </Text>
-      )
-    })
+    
+    return labels.map((label, i) => (
+      Array.isArray(label) ?
+      label.map((lebelVal, j) => {
+        return(
+          <Text
+            key={Math.random()}
+            x={
+              (lengthToShow * i +
+                paddingRight +
+                horizontalOffset) *
+              fac
+            }
+            y={(height * 3) / 4 + paddingTop * (j+1) + fontSize * 2}
+            fontSize={fontSize}
+            fontWeight="bold"
+            fill={this.props.chartConfig.color(0.5)}
+            textAnchor="middle"
+          >
+            {lebelVal}
+          </Text>
+        )
+      }) :
+      <Text
+        key={Math.random()}
+        x={
+          (/*((width - paddingRight) / 5)*/lengthToShow * i +
+            paddingRight +
+            horizontalOffset) *
+          fac
+        }
+        y={(height * 3) / 4 + paddingTop + fontSize * 2}
+        fontSize={fontSize}
+        fontWeight="bold"
+        fill={this.props.chartConfig.color(0.5)}
+        textAnchor="middle"
+      >
+        {label}
+      </Text>
+    ))
   }
 
   renderVerticalLines = config => {

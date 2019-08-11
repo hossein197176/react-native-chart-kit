@@ -1,12 +1,12 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import {View} from 'react-native'
 import {Svg, Rect, G} from 'react-native-svg'
 import AbstractChart from './abstract-chart';
-import { ScrollView, Dimensions, FlatList, Text } from "react-native";
-import { scale, moderateScale } from 'react-native-size-matters';
+import { ScrollView} from "react-native";
+import { moderateScale } from 'react-native-size-matters';
 
-const barWidth = moderateScale(10);
-const lengthToShow = 8;
+const barWidth = moderateScale(6);
+const lengthToShow = moderateScale(50);
 
 class BarChart extends AbstractChart {
   renderBars = config => {
@@ -25,12 +25,17 @@ class BarChart extends AbstractChart {
           <View
             style = {{
               width: barWidth,
-              marginRight: ((width - paddingRight)) / lengthToShow - barWidth,
+              // marginRight: ((width - paddingRight)) / lengthToShow - barWidth,
+              marginRight: lengthToShow,
               height: (Math.abs(barHeight) / 4) * 3,
               backgroundColor: colors[i % colors.length],
-              borderRadius: 8,
-              elevation: 4,
+              borderRadius: 3,
+              elevation: 2,
               alignSelf: 'flex-end',
+              shadowColor: 'black',
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.3,
+              shadowRadius: 1.6
             }}
             key = {i}
           />
@@ -63,7 +68,7 @@ class BarChart extends AbstractChart {
 
   render() {
     const paddingTop = 16
-    const paddingRight = 0
+    const paddingRight = moderateScale(20)
     const { 
       width,
       height,
@@ -117,21 +122,22 @@ class BarChart extends AbstractChart {
                 ...config,
                 count: 6,
                 paddingTop,
+                paddingRight: 0,
                 width: width * 5,
               })}
             </G>
-            <G>
+            <View style = {{flexDirection: 'row'}}>
               {withVerticalLabels
                 ? this.renderVerticalLabels({
                 ...config,
                 labels: data.labels,
-                lengthToShow,
+                lengthToShow: lengthToShow + barWidth,
                 paddingRight,
                 paddingTop,
                 horizontalOffset: barWidth
               })
               : null}
-            </G>
+            </View>
             <G>
               {this.renderBars({
                 ...config,
