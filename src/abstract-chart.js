@@ -41,14 +41,14 @@ class AbstractChart extends Component {
 
   renderHorizontalLines = config => {
     const {count, width, height, paddingTop, paddingRight} = config
-    return [...new Array(count)].map((_, i) => {
+    return [...new Array(count - 1)].map((_, i) => {
       return (
         <Line
           key={Math.random()}
           x1={paddingRight}
-          y1={(height / 4) * i + paddingTop}
+          y1={(height / count) * i + paddingTop}
           x2={width}
-          y2={(height / 4) * i + paddingTop}
+          y2={(height / count) * i + paddingTop}
           stroke={this.props.chartConfig.color(0.2)}
           // strokeDasharray="5, 10"
           strokeWidth={1}
@@ -85,15 +85,15 @@ class AbstractChart extends Component {
     const decimalPlaces = this.props.chartConfig.decimalPlaces === undefined ? 2 : this.props.chartConfig.decimalPlaces
     const yAxisLabel = this.props.yAxisLabel || ''
 
-    return [...new Array(count)].map((_, i) => {
+    return [...new Array(count - 1)].map((_, i) => {
       let yLabel
 
       if (count === 1) {
         yLabel = `${yAxisLabel}${data[0].toFixed(decimalPlaces)}`
       } else {
         const label = this.props.fromZero ?
-          (this.calcScaler(data) / (count - 1)) * i + Math.min(...data, 0) :
-          (this.calcScaler(data) / (count - 1)) * i + Math.min(...data)
+          (this.calcScaler(data) / (count - 2)) * i + Math.min(...data, 0) :
+          (this.calcScaler(data) / (count - 2)) * i + Math.min(...data)
         yLabel = `${yAxisLabel}${label.toFixed(decimalPlaces)}`
       }
 
@@ -103,7 +103,7 @@ class AbstractChart extends Component {
           x={paddingRight - yLabelsOffset}
           textAnchor="end"
           y={(height * 3) / 4 - ((height - paddingTop) / count) * i + 12}
-          fontSize={12}
+          fontSize={moderateScale(12)}
           fill={this.props.chartConfig.color(0.5)}
         >
           {yLabel}

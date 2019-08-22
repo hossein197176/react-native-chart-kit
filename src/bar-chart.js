@@ -20,7 +20,7 @@ class BarChart extends AbstractChart {
         flexDirection: 'row'
       }}>
         {data.map((x, i) => {
-        const barHeight = this.calcHeight(x, data, height)
+        const barHeight = x == 0 ? barWidth : this.calcHeight(x, data, height)
         return (
           <View
             style = {{
@@ -67,7 +67,7 @@ class BarChart extends AbstractChart {
   }
 
   render() {
-    const paddingTop = 16
+    const paddingTop = moderateScale(16)
     const paddingRight = moderateScale(20)
     const { 
       width,
@@ -91,15 +91,15 @@ class BarChart extends AbstractChart {
     
     return (
       <View style = {{flexDirection: 'row'}}>
-        <Svg height={height} width={64}>
+        <Svg height={height} width={moderateScale(40)}>
             <G>
             {withHorizontalLabels
               ? this.renderHorizontalLabels({
               ...config,
-              count: 4,
+              count: 8,
               data: data.datasets[0].data,
               paddingTop,
-              paddingRight: 64
+              paddingRight: moderateScale(40)
             })
             : null}
             </G>
@@ -120,7 +120,7 @@ class BarChart extends AbstractChart {
             <G>
               {this.renderHorizontalLines({
                 ...config,
-                count: 6,
+                count: 8,
                 paddingTop,
                 paddingRight: 0,
                 width: width * 5,
