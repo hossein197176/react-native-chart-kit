@@ -1,248 +1,174 @@
 import React, {Component} from 'react'
-import {LinearGradient, Line, Text, Defs, Stop} from 'react-native-svg'
+import { Text as ReactText, View } from "react-native";
 import { moderateScale } from 'react-native-size-matters';
 
+const fontSize = moderateScale(12);
+
 class AbstractChart extends Component {
-  calcScaler = data => {
-    if (this.props.fromZero) {
-      return Math.max(...data, 0) - Math.min(...data, 0) || 1
-    } else {
-      return Math.max(...data) - Math.min(...data) || 1
-    }
-  }
+	calcScaler = data => {
+		if (this.props.fromZero) {
+			return Math.max(...data, 0) - Math.min(...data, 0) || 1
+		} else {
+			return Math.max(...data) - Math.min(...data) || 1
+		}
+	}
 
-  calcBaseHeight = (data, height) => {
-    const min = Math.min(...data)
-    const max = Math.max(...data)
-    if (min >= 0 && max >= 0) {
-      return height
-    } else if (min < 0 && max <= 0) {
-      return 0
-    } else if (min < 0 && max > 0) {
-      return height * max / this.calcScaler(data)
-    }
-  }
+	calcBaseHeight = (data, height) => {
+		const min = Math.min(...data)
+		const max = Math.max(...data)
+		if (min >= 0 && max >= 0) {
+			return height
+		} else if (min < 0 && max <= 0) {
+			return 0
+		} else if (min < 0 && max > 0) {
+			return height * max / this.calcScaler(data)
+		}
+	}
 
-  calcHeight = (val, data, height) => {
-    const max = Math.max(...data)
-    const min = Math.min(...data)
-    if (min < 0 && max > 0) {
-       return height * (val / this.calcScaler(data))
-    } else if (min >= 0 && max >= 0) {
-      return this.props.fromZero ?
-        height * (val / this.calcScaler(data)) :
-        height * ((val - min) / this.calcScaler(data))
-    } else if (min < 0 && max <= 0) {
-      return this.props.fromZero ?
-        height * (val / this.calcScaler(data)) :
-        height * ((val - max) / this.calcScaler(data))
-    }
-  }
+	calcHeight = (val, data, height) => {
+		const max = Math.max(...data)
+		const min = Math.min(...data)
+		if (min < 0 && max > 0) {
+			 return height * (val / this.calcScaler(data))
+		} else if (min >= 0 && max >= 0) {
+			return this.props.fromZero ?
+				height * (val / this.calcScaler(data)) :
+				height * ((val - min) / this.calcScaler(data))
+		} else if (min < 0 && max <= 0) {
+			return this.props.fromZero ?
+				height * (val / this.calcScaler(data)) :
+				height * ((val - max) / this.calcScaler(data))
+		}
+	}
 
-  renderHorizontalLines = config => {
-    const {count, width, height, paddingTop, paddingRight} = config
-    return [...new Array(count - 1)].map((_, i) => {
-      return (
-        <Line
-          key={Math.random()}
-          x1={paddingRight}
-          y1={(height / count) * i + paddingTop}
-          x2={width}
-          y2={(height / count) * i + paddingTop}
-          stroke={this.props.chartConfig.color(0.2)}
-          // strokeDasharray="5, 10"
-          strokeWidth={1}
-        />
-      )
-    })
-  }
+	renderHorizontalLines = config => {
+		const {count, width, height, paddingTop, paddingRight} = config
+		return [...new Array(count - 1)].map((_, i) => {
+			return (
+				<View 
+					key={Math.random()}
+					style = {{
+						top: (height / count) * i + paddingTop,
+						width: '100%',
+						height: 1,
+						backgroundColor: this.props.chartConfig.color(0.2),
+						position: 'absolute',
+					}}
+				/>
+			)
+		})
+	}
 
-  renderHorizontalLine = config => {
-    const {width, height, paddingTop, paddingRight} = config
-    return (
-      <Line
-        key={Math.random()}
-        x1={paddingRight}
-        y1={height - height / 4 + paddingTop}
-        x2={width}
-        y2={height - height / 4 + paddingTop}
-        stroke={this.props.chartConfig.color(0.2)}
-        strokeDasharray="5, 10"
-        strokeWidth={1}
-      />
-    )
-  }
+	renderHorizontalLabels = config => {
+		const {
+			count,
+			data,
+			height,
+			paddingTop,
+			paddingRight,
+			yLabelsOffset = 12
+		} = config
+		const decimalPlaces = this.props.chartConfig.decimalPlaces === undefined ? 2 : this.props.chartConfig.decimalPlaces
+		const yAxisLabel = this.props.yAxisLabel || '';
+		const style = {
+			right: paddingRight - yLabelsOffset,
+			fontSize: fontSize,
+			position: 'absolute',
+			color: this.props.chartConfig.color(0.5)
+		}
 
-  renderHorizontalLabels = config => {
-    const {
-      count,
-      data,
-      height,
-      paddingTop,
-      paddingRight,
-      yLabelsOffset = 12
-    } = config
-    const decimalPlaces = this.props.chartConfig.decimalPlaces === undefined ? 2 : this.props.chartConfig.decimalPlaces
-    const yAxisLabel = this.props.yAxisLabel || ''
+		return [...new Array(count - 1)].map((_, i) => {
+			let yLabel
 
-    return [...new Array(count - 1)].map((_, i) => {
-      let yLabel
+			if (count === 1) {
+				yLabel = `${yAxisLabel}${data[0].toFixed(decimalPlaces)}`
+			} else {
+				const label = this.props.fromZero ?
+					(this.calcScaler(data) / (count - 2)) * i + Math.min(...data, 0) :
+					(this.calcScaler(data) / (count - 2)) * i + Math.min(...data)
+				yLabel = `${yAxisLabel}${label.toFixed(decimalPlaces)}`
+			}
 
-      if (count === 1) {
-        yLabel = `${yAxisLabel}${data[0].toFixed(decimalPlaces)}`
-      } else {
-        const label = this.props.fromZero ?
-          (this.calcScaler(data) / (count - 2)) * i + Math.min(...data, 0) :
-          (this.calcScaler(data) / (count - 2)) * i + Math.min(...data)
-        yLabel = `${yAxisLabel}${label.toFixed(decimalPlaces)}`
-      }
+			return (
+				<ReactText
+					key={Math.random()}
+					style = {[style, {
+						top: (height * 3) / 4 - ((height - paddingTop) / count) * i
+					}]}
+				>
+					{yLabel}
+				</ReactText>
+			)
+		})
+	}
 
-      return (
-        <Text
-          key={Math.random()}
-          x={paddingRight - yLabelsOffset}
-          textAnchor="end"
-          y={(height * 3) / 4 - ((height - paddingTop) / count) * i + 12}
-          fontSize={moderateScale(12)}
-          fill={this.props.chartConfig.color(0.5)}
-        >
-          {yLabel}
-        </Text>
-      )
-    })
-  }
+	renderVerticalLabels = config => {
+		const {
+			labels = [],
+			width,
+			height,
+			paddingRight,
+			paddingTop,
+			lengthToShow,
+			horizontalOffset = 0,
+			stackedBar = false
+		} = config
 
-  renderVerticalLabels = config => {
-    const {
-      labels = [],
-      width,
-      height,
-      paddingRight,
-      paddingTop,
-      lengthToShow,
-      horizontalOffset = 0,
-      stackedBar = false
-    } = config
-    const fontSize = moderateScale(12)
-    let fac = 1
-    if (stackedBar) {
-      fac = 0.71
-    }
-    
-    return labels.map((label, i) => (
-      Array.isArray(label) ?
-      label.map((lebelVal, j) => {
-        return(
-          <Text
-            key={Math.random()}
-            x={
-              (lengthToShow * i +
-                paddingRight +
-                horizontalOffset) *
-              fac
-            }
-            y={(height * 3) / 4 + paddingTop * (j+1) + fontSize * 2}
-            fontSize={fontSize}
-            fontWeight="bold"
-            fill={this.props.chartConfig.color(0.5)}
-            textAnchor="middle"
-          >
-            {lebelVal}
-          </Text>
-        )
-      }) :
-      <Text
-        key={Math.random()}
-        x={
-          (/*((width - paddingRight) / 5)*/lengthToShow * i +
-            paddingRight +
-            horizontalOffset) *
-          fac
-        }
-        y={(height * 3) / 4 + paddingTop + fontSize * 2}
-        fontSize={fontSize}
-        fontWeight="bold"
-        fill={this.props.chartConfig.color(0.5)}
-        textAnchor="middle"
-      >
-        {label}
-      </Text>
-    ))
-  }
+		let fac = 1
+		if (stackedBar) {
+			fac = 0.71
+		}
+		const style = {
+			width: lengthToShow,
+			fontSize: fontSize,
+			fontWeight: 'bold',
+			position: 'absolute',
+			color: 'gray',
+			textAlign: 'center',
+			top: (height * 3) / 4 + paddingTop,
+		}
+		
+		return labels.map((label, i) => (
+			Array.isArray(label) ?
+			label.map((lebelVal, j) => {
+				return(
+					<ReactText
+						key={Math.random()}
+						style = {[style, {
+							left: (lengthToShow * i ) * fac,
+							top: (height * 3) / 4 + paddingTop * (j+1),
+						}]}
+					>
+						{lebelVal}
+					</ReactText>
+				)
+			}) :
+			<ReactText
+				key={Math.random()}
+				style = {[style, {
+					left: (lengthToShow * i) * fac,
+				}]}
+			>
+				{label}
+			</ReactText>
+		))
+	}
 
-  renderVerticalLines = config => {
-    const {data, width, height, paddingTop, paddingRight} = config
-    return [...new Array(data.length)].map((_, i) => {
-      return (
-        <Line
-          key={Math.random()}
-          x1={Math.floor(
-            ((width - paddingRight) / data.length) * i + paddingRight
-          )}
-          y1={0}
-          x2={Math.floor(
-            ((width - paddingRight) / data.length) * i + paddingRight
-          )}
-          y2={height - height / 4 + paddingTop}
-          stroke={this.props.chartConfig.color(0.2)}
-          strokeDasharray="5, 10"
-          strokeWidth={1}
-        />
-      )
-    })
-  }
-
-  renderVerticalLine = config => {
-    const {height, paddingTop, paddingRight} = config
-    return (
-      <Line
-        key={Math.random()}
-        x1={Math.floor(paddingRight)}
-        y1={0}
-        x2={Math.floor(paddingRight)}
-        y2={height - height / 4 + paddingTop}
-        stroke={this.props.chartConfig.color(0.2)}
-        strokeDasharray="5, 10"
-        strokeWidth={1}
-      />
-    )
-  }
-
-  renderDefs = config => {
-    const {width, height, backgroundGradientFrom, backgroundGradientTo} = config
-    return (
-      <Defs>
-        <LinearGradient
-          id="backgroundGradient"
-          x1="0"
-          y1={height}
-          x2={width}
-          y2={0}
-        >
-          <Stop offset="0" stopColor={backgroundGradientFrom} />
-          <Stop offset="1" stopColor={backgroundGradientTo} />
-        </LinearGradient>
-        <LinearGradient
-          id="fillShadowGradient"
-          x1={0}
-          y1={0}
-          x2={0}
-          y2={height}
-        >
-          <Stop
-            offset="0"
-            stopColor={this.props.chartConfig.color()}
-            stopOpacity="0.1"
-          />
-          <Stop
-            offset="1"
-            stopColor={this.props.chartConfig.color()}
-            stopOpacity="0"
-          />
-        </LinearGradient>
-      </Defs>
-    )
-  }
+	renderVerticalLine = config => {
+		const {height, paddingTop, paddingRight} = config
+		return (
+			<Line
+				key={Math.random()}
+				x1={Math.floor(paddingRight)}
+				y1={0}
+				x2={Math.floor(paddingRight)}
+				y2={height - height / 4 + paddingTop}
+				stroke={this.props.chartConfig.color(0.2)}
+				strokeDasharray="5, 10"
+				strokeWidth={1}
+			/>
+		)
+	}
 }
 
 export default AbstractChart

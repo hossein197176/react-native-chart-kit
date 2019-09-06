@@ -1,65 +1,107 @@
 {
-  "name": "react-native-chart-kit",
-  "version": "3.1.0",
-  "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-module-resolver": "^3.1.1",
-    "eslint-plugin-react-hooks": "^1.4.0",
-    "babel-polyfill": "^6.26.0",
-    "eslint-config-xo-react": "^0.19.0",
-    "eslint-plugin-react": "^7.12.4",
-    "expo": "32.0.1",
-    "jest-expo": "28.0.0",
-    "prop-types": "^15.6.2",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-scrollable-tab-view": "^0.10.0",
-    "react-native-flash-message": "^0.1.10",
-    "react-test-renderer": "16.7.0",
-    "xo": "^0.24.0"
-  },
+  "_args": [
+    [
+      "hossein197176/react-native-chart-kit",
+      "/home/hossein/Programs/KindyParent"
+    ]
+  ],
+  "_from": "hossein197176/react-native-chart-kit",
+  "_id": "react-native-chart-kit@3.1.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-chart-kit",
   "_main": "./node_modules/expo/AppEntry.js",
-  "main": "./index.js",
-  "scripts": {
-    "start": "expo start",
-    "eject": "expo eject",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "test": "jest"
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/hossein197176/react-native-chart-kit/master/package.json",
+      "gitUrl": "git://github.com/hossein197176/react-native-chart-kit.git",
+      "httpsUrl": "git+https://github.com/hossein197176/react-native-chart-kit.git",
+      "shortcut": "github:hossein197176/react-native-chart-kit",
+      "ssh": "git@github.com:hossein197176/react-native-chart-kit.git",
+      "sshUrl": "git+ssh://git@github.com/hossein197176/react-native-chart-kit.git",
+      "type": "github"
+    },
+    "name": null,
+    "raw": "hossein197176/react-native-chart-kit",
+    "rawSpec": "hossein197176/react-native-chart-kit",
+    "scope": null,
+    "spec": "github:hossein197176/react-native-chart-kit",
+    "type": "hosted"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
-  "peerDependencies": {
-    "prop-types": "> 15.6.0",
-    "react": "> 16.7.0",
-    "react-native": ">= 0.50.0",
-    "react-native-svg": "> 6.4.1"
-  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git://github.com/hossein197176/react-native-chart-kit.git#d0d350a03d71776329fc880342135b2506009bd5",
+  "_shasum": "e2cc4c3ec7366ba12c8caface165a5a8efee34be",
+  "_shrinkwrap": null,
+  "_spec": "hossein197176/react-native-chart-kit",
+  "_where": "/home/hossein/Programs/KindyParent",
   "dependencies": {
     "lodash": "^4.17.11",
     "paths-js": "^0.4.7",
     "point-in-polygon": "^1.0.1"
   },
+  "description": "Fork Of [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit)",
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-polyfill": "^6.26.0",
+    "eslint-config-xo-react": "^0.19.0",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.4.0",
+    "expo": "32.0.1",
+    "jest-expo": "28.0.0",
+    "prop-types": "^15.6.2",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-flash-message": "^0.1.10",
+    "react-native-scrollable-tab-view": "^0.10.0",
+    "react-test-renderer": "16.7.0",
+    "xo": "^0.24.0"
+  },
+  "gitHead": "d0d350a03d71776329fc880342135b2506009bd5",
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "main": "./index.js",
+  "name": "react-native-chart-kit",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "prop-types": "> 15.6.0",
+    "react": "> 16.7.0",
+    "react-native": ">= 0.50.0",
+    "react-native-size-matters": "^0.2.1"
+  },
+  "readme": "Fork Of [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit) \n\nAdded Colors for Bar Chart and made it scrollable for more data.\n\n## Import components\n1. `yarn add react-native-chart-kit`\n2. Use with ES6 syntax to import components\n\n```js\nimport {\n  LineChart,\n  BarChart,\n  PieChart,\n  ProgressChart,\n  ContributionGraph,\n  StackedBarChart\n} from 'react-native-chart-kit'\n\n```\n\n## Quick Example\n```jsx\n<View>\n  <Text>\n    Bezier Line Chart\n  </Text>\n  <LineChart\n    data={{\n      labels: ['January', 'February', 'March', 'April', 'May', 'June'],\n      datasets: [{\n        data: [\n          Math.random() * 100,\n          Math.random() * 100,\n          Math.random() * 100,\n          Math.random() * 100,\n          Math.random() * 100,\n          Math.random() * 100\n        ]\n      }]\n    }}\n    width={Dimensions.get('window').width} // from react-native\n    height={220}\n    yAxisLabel={'$'}\n    chartConfig={{\n      backgroundColor: '#e26a00',\n      backgroundGradientFrom: '#fb8c00',\n      backgroundGradientTo: '#ffa726',\n      decimalPlaces: 2, // optional, defaults to 2dp\n      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,\n      style: {\n        borderRadius: 16\n      }\n    }}\n    bezier\n    style={{\n      marginVertical: 8,\n      borderRadius: 16\n    }}\n  />\n</View>\n```\n\n## Chart style object\nDefine a chart style object with following properies as such:\n```js\nconst chartConfig = {\n  backgroundGradientFrom: '#1E2923',\n  backgroundGradientTo: '#08130D',\n  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,\n  strokeWidth: 2 // optional, default 3\n}\n```\n\n| Property        | Type           | Description  |\n| ------------- |-------------| -----|\n| backgroundGradientFrom | string | Defines the first color in the linear gradient of a chart's background  |\n| backgroundGradientTo | string | Defines the second color in the linear gradient of a chart's background |\n| color | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart |\n| strokeWidth | Number | Defines the base stroke width in a chart |\n\n## Responsive charts\nTo render a responsive chart, use `Dimensions` react-native library to get the width of the screen of your device like such\n```js\nimport { Dimensions } from 'react-native'\nconst screenWidth = Dimensions.get('window').width\n```\n\n## Bar chart\n\n![Bar_Chart_Scrollable](/src/screenshot.png)\n\n```js\nconst data = {\n  labels: ['January', 'February', 'March', 'April', 'May', 'June'],\n  datasets: [{\n    data: [ 20, 45, 28, 80, 99, 43 ]\n  }]\n}\n```\n```html\n<BarChart\n  style={graphStyle}\n  colors={['yellow', 'red', 'orange', 'blue', 'purple', 'black']}\n  data={data}\n  width={screenWidth}\n  height={220}\n  yAxisLabel={'$'}\n  chartConfig={chartConfig}\n/>\n```\n\n| Property        | Type           | Description  |\n| ------------- |-------------| -----|\n| data | Object | Data for the chart - see example above |\n| colors | Array | Color of each column of chart - see example above |\n| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |\n| height | Number | Height of the chart |\n| withVerticalLabels | boolean | Show vertical labels - default: True |\n| withHorizontalLabels | boolean | Show horizontal labels - default: True |\n| fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |\n| yAxisLabel | string | Prepend text to horizontal labels -- default: '' |\n| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |\n\n## More information\nThis library is built on top of the following open-source projects:\n* react-native-svg (https://github.com/react-native-community/react-native-svg)\n* paths-js  (https://github.com/andreaferretti/paths-js)\n* react-native-calendar-heatmap (https://github.com/ayooby/react-native-calendar-heatmap)\n\n## Contribute\nSee the [contribution guide](contributing.md) and join [the contributors](https://github.com/indiespirit/react-native-chart-kit/graphs/contributors)!\n",
+  "readmeFilename": "README.md",
+  "scripts": {
+    "android": "expo start --android",
+    "eject": "expo eject",
+    "ios": "expo start --ios",
+    "start": "expo start",
+    "test": "jest"
+  },
+  "version": "3.1.0",
   "xo": {
+    "envs": [
+      "browser",
+      "node"
+    ],
     "extends": "xo-react",
     "parser": "babel-eslint",
-    "space": true,
-    "semicolon": false,
     "prettier": true,
     "rules": {
       "camelcase": "off",
       "capitalized-comments": "off",
-      "new-cap": "off",
       "import/no-unassigned-import": "off",
+      "new-cap": "off",
       "react/forbid-component-props": "off",
-      "react/prop-types": "off",
       "react/no-this-in-sfc": "off",
+      "react/prop-types": "off",
       "unicorn/filename-case": "off"
     },
-    "envs": [
-      "node",
-      "browser"
-    ]
+    "semicolon": false,
+    "space": true
   }
 }
