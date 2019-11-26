@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { Text as ReactText, View } from "react-native";
 import { moderateScale } from 'react-native-size-matters';
 
@@ -29,7 +29,7 @@ class AbstractChart extends Component {
 		const max = Math.max(...data)
 		const min = Math.min(...data)
 		if (min < 0 && max > 0) {
-			 return height * (val / this.calcScaler(data))
+			return height * (val / this.calcScaler(data))
 		} else if (min >= 0 && max >= 0) {
 			return this.props.fromZero ?
 				height * (val / this.calcScaler(data)) :
@@ -42,17 +42,22 @@ class AbstractChart extends Component {
 	}
 
 	renderHorizontalLines = config => {
-		const {count, width, height, paddingTop, paddingRight} = config
+		const { count, height, paddingTop, paddingRight } = config
+		// const height = config.height * 0.75;
 		return [...new Array(count - 1)].map((_, i) => {
 			return (
-				<View 
+				<View
 					key={Math.random()}
-					style = {{
+					style={{
 						top: (height / count) * i + paddingTop,
-						width: '100%',
+						width: '90%',
 						height: 1,
+						right: 0,
 						backgroundColor: this.props.chartConfig.color(0.2),
+						// height: height / count,
 						position: 'absolute',
+						// borderBottomWidth: 1,
+						// borderBottomColor: 'red'
 					}}
 				/>
 			)
@@ -88,11 +93,11 @@ class AbstractChart extends Component {
 					(this.calcScaler(data) / (count - 2)) * i + Math.min(...data)
 				yLabel = `${yAxisLabel}${label.toFixed(decimalPlaces)}`
 			}
-
+			
 			return (
 				<ReactText
 					key={Math.random()}
-					style = {[style, {
+					style={[style, {
 						top: (height * 3) / 4 - ((height - paddingTop) / count) * i
 					}]}
 				>
@@ -111,7 +116,8 @@ class AbstractChart extends Component {
 			paddingTop,
 			lengthToShow,
 			horizontalOffset = 0,
-			stackedBar = false
+			stackedBar = false,
+			inverted = false
 		} = config
 
 		let fac = 1
@@ -127,35 +133,35 @@ class AbstractChart extends Component {
 			textAlign: 'center',
 			top: (height * 3) / 4 + paddingTop,
 		}
-		
+
 		return labels.map((label, i) => (
 			Array.isArray(label) ?
-			label.map((lebelVal, j) => {
-				return(
-					<ReactText
-						key={Math.random()}
-						style = {[style, {
-							left: (lengthToShow * i ) * fac,
-							top: (height * 3) / 4 + paddingTop * (j+1),
-						}]}
-					>
-						{lebelVal}
-					</ReactText>
-				)
-			}) :
-			<ReactText
-				key={Math.random()}
-				style = {[style, {
-					left: (lengthToShow * i) * fac,
-				}]}
-			>
-				{label}
-			</ReactText>
+				label.map((lebelVal, j) => {
+					return (
+						<ReactText
+							key={Math.random()}
+							style={[style, {
+								left: (lengthToShow * i) * fac,
+								top: (height * 3) / 4 + paddingTop * (j + 1),
+							}]}
+						>
+							{lebelVal}
+						</ReactText>
+					)
+				}) :
+				<ReactText
+					key={Math.random()}
+					style={[style, {
+						left: (lengthToShow * i) * fac,
+					}]}
+				>
+					{label}
+				</ReactText>
 		))
 	}
 
 	renderVerticalLine = config => {
-		const {height, paddingTop, paddingRight} = config
+		const { height, paddingTop, paddingRight } = config
 		return (
 			<Line
 				key={Math.random()}
